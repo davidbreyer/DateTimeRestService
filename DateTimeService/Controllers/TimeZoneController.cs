@@ -8,7 +8,7 @@ using System.Web.Http.Controllers;
 
 namespace DateTimeService.Controllers
 {
-    [UseMyFormatterAttribute]
+    [JsonFormatter]
     public class TimeZoneController : ApiController
     {
         
@@ -27,20 +27,14 @@ namespace DateTimeService.Controllers
         }
     }
 
-    public class UseMyFormatterAttribute : Attribute, IControllerConfiguration
+    public class JsonFormatter : Attribute, IControllerConfiguration
     {
         public void Initialize(HttpControllerSettings settings,
             HttpControllerDescriptor descriptor)
         {
-            // Clear the formatters list.
-            //settings.Formatters.Clear();
-
             var json = settings.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
             settings.Formatters.Remove(settings.Formatters.XmlFormatter);
-
-            // Add a custom media-type formatter.
-            //settings.Formatters.Add(settings.Formatters.JsonFormatter);
         }
     }
 }

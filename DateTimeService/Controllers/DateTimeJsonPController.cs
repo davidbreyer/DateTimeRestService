@@ -20,113 +20,7 @@ namespace DateTimeService.Controllers
         [Route("{timeZone}/{date}")]
         public DateTimeResponse Get(string timeZone, string date, string callBack)
         {
-
             return TimeZoneHelper.ProcessRequest(timeZone, date);
-            //return new DateTimeJsonPController().Get(timeZone, callBack);
-            //        Id	"E. Europe Standard Time"	string
-            //        Id	"W. Europe Standard Time"	string
-            //Eastern Standard Time
-
-            //try
-            //{
-            //    DateTime dateToReturn = DateTime.UtcNow;
-
-            //    if (!date.Equals("now", StringComparison.CurrentCultureIgnoreCase))
-            //    {
-            //        DateTime.TryParse(date, out dateToReturn);
-            //    }
-
-            //    if (timeZone == "est")
-            //    {
-            //        timeZone = "Eastern Standard Time";
-            //    }
-
-            //    var timeZoneInfo = TimeZoneInfo.ConvertTimeFromUtc(dateToReturn, TimeZoneInfo.FindSystemTimeZoneById(timeZone));
-
-            //    return new DateTimeResponse
-            //    {
-            //        CurrentDateTime = timeZoneInfo
-            //        ,
-            //        IsDayLightSavingsTime = timeZoneInfo.IsDaylightSavingTime()
-            //        ,
-            //        UTCOffset = TimeZoneInfo.FindSystemTimeZoneById(timeZone).GetUtcOffset(timeZoneInfo).ToString()
-            //        ,
-            //        TimeZoneName = TimeZoneInfo.FindSystemTimeZoneById(timeZone).Id
-            //        ,
-            //        CurrentFileTime = timeZoneInfo.ToFileTime()
-            //    };
-            //}
-            //catch (System.TimeZoneNotFoundException)
-            //{
-            //    return new DateTimeResponse
-            //    {
-            //        ServiceResponse = string.Format("{0} is not a valid Time Zone. Check the Time Zone Service for a list of valid time zones.", timeZone)
-            //    };
-            //}
-            //TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(timeZone)); //"E. Europe Standard Time")); //"Eastern Standard Time"));
-        }
-
-
-        // GET api/values
-        //[Route("datetime/{timeZone}")]
-        //public DateTimeResponse Get(string timeZone, string callBack)
-        //{
-        //    //		Id	"E. Europe Standard Time"	string
-        //    //		Id	"W. Europe Standard Time"	string
-        //    //Eastern Standard Time
-
-        //    try
-        //    {
-
-        //        if (timeZone == "est")
-        //        {
-        //            timeZone = "Eastern Standard Time";
-        //        }
-
-        //        var timeZoneInfo = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(timeZone));
-
-        //        return new DateTimeResponse
-        //        {
-        //            CurrentDateTime = timeZoneInfo
-        //            ,
-        //            IsDayLightSavingsTime = timeZoneInfo.IsDaylightSavingTime()
-        //            ,
-        //            UTCOffset = TimeZoneInfo.FindSystemTimeZoneById(timeZone).GetUtcOffset(timeZoneInfo).ToString()
-        //            ,
-        //            TimeZoneName = TimeZoneInfo.FindSystemTimeZoneById(timeZone).Id
-        //            ,
-        //            CurrentFileTime = timeZoneInfo.ToFileTime()
-        //        };
-        //    }
-        //    catch (System.TimeZoneNotFoundException)
-        //    {
-        //        return new DateTimeResponse
-        //        {
-        //            ServiceResponse = string.Format("{0} is not a valid Time Zone. Check the Time Zone Service for a list of valid time zones.", timeZone)
-        //        };
-        //    }
-        //    //TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(timeZone)); //"E. Europe Standard Time")); //"Eastern Standard Time"));
-        //}
-
-        [Route("datetime")]
-        public DateTimeResponse Get()
-        {
-            //		Id	"E. Europe Standard Time"	string
-            //		Id	"W. Europe Standard Time"	string
-            //Eastern Standard Time
-            return new DateTimeResponse
-            {
-                CurrentDateTime = DateTime.UtcNow
-                ,
-                UTCOffset = TimeZoneInfo.FindSystemTimeZoneById("UTC").GetUtcOffset(DateTime.UtcNow).ToString()
-                ,
-                IsDayLightSavingsTime = TimeZoneInfo.FindSystemTimeZoneById("UTC").IsDaylightSavingTime(DateTime.UtcNow)
-                ,
-                TimeZoneName = TimeZoneInfo.FindSystemTimeZoneById("UTC").Id
-                ,
-                CurrentFileTime = DateTime.UtcNow.ToFileTime()
-            };
-            //return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time")); //"E. Europe Standard Time")); //"Eastern Standard Time"));
         }
     }
 
@@ -135,9 +29,6 @@ namespace DateTimeService.Controllers
             public void Initialize(HttpControllerSettings settings,
                 HttpControllerDescriptor descriptor)
             {
-                // Clear the formatters list.
-                //settings.Formatters.Clear();
-
                 var jsonFormatter = settings.Formatters.JsonFormatter;
                 jsonFormatter.SerializerSettings = new JsonSerializerSettings
                 {
@@ -147,9 +38,6 @@ namespace DateTimeService.Controllers
                 // Insert the JSONP formatter in front of the standard JSON formatter.
                 var jsonpFormatter = new JsonpMediaTypeFormatter(settings.Formatters.JsonFormatter);
                 settings.Formatters.Insert(0, jsonpFormatter);
-
-                // Add a custom media-type formatter.
-                //settings.Formatters.Add(settings.Formatters.JsonFormatter);
             }
         }
     }
