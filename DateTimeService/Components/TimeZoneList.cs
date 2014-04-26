@@ -114,6 +114,8 @@ namespace DateTimeService.Components
             TimeZones.Add("KAST", "Kamchatka Standard Time");
             TimeZones.Add("TOST", "Tonga Standard Time");
             TimeZones.Add("SAST", "Samoa Standard Time");
+
+            //TimeZones.Add("Cincinnati", "Eastern Standard Time");
         }
     }
 }
