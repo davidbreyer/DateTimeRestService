@@ -146,11 +146,13 @@
     <Compile Include="Controllers\DateTimeJsonPController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TimeZoneController.cs" />
+    <Compile Include="Controllers\TimeZoneListController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DateTimeResponse.cs" />
+    <Compile Include="Models\TimeZoneModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +197,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\TimeZoneList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
