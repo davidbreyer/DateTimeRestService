@@ -27,7 +27,7 @@ namespace DateTimeService.Components
                 {
                     CurrentDateTime = timeZoneInfo
                     ,
-                    IsDayLightSavingsTime = timeZoneInfo.IsDaylightSavingTime()
+                    IsDayLightSavingsTime = timeZoneToReturn.IsDaylightSavingTime(timeZoneInfo)
                     ,
                     UTCOffset = timeZoneToReturn.GetUtcOffset(timeZoneInfo).ToString()
                     ,
