@@ -24,7 +24,7 @@ namespace DateTimeService.Controllers
                 {
                     Code = TimeZoneHelper.TimeZoneList.TimeZones.SingleOrDefault(x=>x.Value.Equals(timeZone.Id)).Key
                     ,
-                    Name = timeZone.Id
+                    Name = timeZone.DisplayName
                     ,
                     UtcOffset = timeZone.BaseUtcOffset.ToString()
                     , IsDaylightSavingsTime = timeZone.IsDaylightSavingTime(DateTime.UtcNow)
