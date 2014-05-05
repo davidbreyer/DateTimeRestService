@@ -21,13 +21,13 @@ namespace DateTimeService.Components
                 //Parse the passed date.
                 var dateToReturn = ProcessNaturalLanguage(date, timeZoneToReturn);
                 //Convert UTC time to the requested time zone.
-                var timeZoneInfo = TimeZoneInfo.ConvertTimeFromUtc(dateToReturn, timeZoneToReturn);
+                var timeZoneInfo = TimeZoneInfo.ConvertTimeFromUtc(dateToReturn.DateTime, timeZoneToReturn);
 
                 if (timeZoneInfo.Date != DateTime.MinValue)
                 {
                     return new DateTimeResponse
                     {
-                        CurrentDateTime = timeZoneInfo
+                        CurrentDateTime = FormatDateTime(timeZoneInfo, timeZoneToReturn)
                         ,
                         IsDayLightSavingsTime = timeZoneToReturn.IsDaylightSavingTime(timeZoneInfo)
                         ,
@@ -59,6 +59,25 @@ namespace DateTimeService.Components
             }
         }
 
+        private static string FormatDateTime(DateTime timeZoneInfo, TimeZoneInfo timeZoneToReturn)
+        {
+            if(timeZoneToReturn.Id.Equals("utc", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return string.Format("{0}{1}", timeZoneInfo.ToString("yyyy-MM-ddTHH\\:mm\\:ss"), "Z");
+            }
+
+            return string.Format("{0}{1}", timeZoneInfo.ToString("yyyy-MM-ddTHH\\:mm\\:ss"), GetOffSetFormatted(timeZoneInfo, timeZoneToReturn));
+        }
+
+        private static string GetOffSetFormatted(DateTime timeZoneInfo, TimeZoneInfo timeZoneToReturn)
+        {
+            var offSetBase = timeZoneToReturn.GetUtcOffset(timeZoneInfo);
+            if (offSetBase.ToString().Contains("-")) return offSetBase.ToString();
+
+            return string.Format("+{0}", offSetBase);
+        }
+
+
         private static string GetTimeZoneName(string timeZoneCode)
         {
             if (TimeZoneList.TimeZones.ContainsKey(timeZoneCode))
@@ -71,16 +90,16 @@ namespace DateTimeService.Components
             }
         }
 
-        private static DateTime ProcessNaturalLanguage(string date, TimeZoneInfo timeZoneToReturn)
+        private static DateTimeOffset ProcessNaturalLanguage(string date, TimeZoneInfo timeZoneToReturn)
         {
             switch (date.ToLower())
             {
                 case "now":
-                    return DateTime.UtcNow;
+                    return DateTimeOffset.UtcNow;
                 case "tomorrow":
-                    return DateTime.UtcNow.AddHours(24);
+                    return DateTimeOffset.UtcNow.AddHours(24);
                 case "yesterday":
-                    return DateTime.UtcNow.AddHours(-24);
+                    return DateTimeOffset.UtcNow.AddHours(-24);
                 default:
                     DateTime outDate;
                     DateTime.TryParse(date, out outDate);

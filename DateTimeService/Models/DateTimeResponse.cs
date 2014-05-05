@@ -7,7 +7,7 @@ namespace DateTimeService.Models
 {
     public class DateTimeResponse
     {
-        public DateTimeOffset CurrentDateTime { get; set; }
+        public string CurrentDateTime { get; set; }
         public string UTCOffset { get; set; }
         public bool IsDayLightSavingsTime { get; set; }
         public string DayOfTheWeek { get; set; }

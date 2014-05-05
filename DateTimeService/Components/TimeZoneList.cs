@@ -50,7 +50,7 @@ namespace DateTimeService.Components
             TimeZones.Add("GMT", "GMT Standard Time");
             TimeZones.Add("GST", "Greenwich Standard Time");
             TimeZones.Add("WEST", "W. Europe Standard Time");
-            TimeZones.Add("CEST", "Central Europe Standard Time");
+            TimeZones.Add("CET", "Central Europe Standard Time");
             TimeZones.Add("RST", "Romance Standard Time");
             TimeZones.Add("CEUROST", "Central European Standard Time");
             TimeZones.Add("WEAST", "W. Central Africa Standard Time");
