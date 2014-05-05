@@ -23,20 +23,32 @@ namespace DateTimeService.Components
                 //Convert UTC time to the requested time zone.
                 var timeZoneInfo = TimeZoneInfo.ConvertTimeFromUtc(dateToReturn, timeZoneToReturn);
 
-                return new DateTimeResponse
+                if (timeZoneInfo.Date != DateTime.MinValue)
                 {
-                    CurrentDateTime = timeZoneInfo
-                    ,
-                    IsDayLightSavingsTime = timeZoneToReturn.IsDaylightSavingTime(timeZoneInfo)
-                    ,
-                    UTCOffset = timeZoneToReturn.GetUtcOffset(timeZoneInfo).ToString()
-                    ,
-                    TimeZoneName = timeZoneToReturn.Id
-                    ,
-                    CurrentFileTime = timeZoneInfo.ToFileTime()
-                    , 
-                    DayOfTheWeek = timeZoneInfo.DayOfWeek.ToString()
-                };
+                    return new DateTimeResponse
+                    {
+                        CurrentDateTime = timeZoneInfo
+                        ,
+                        IsDayLightSavingsTime = timeZoneToReturn.IsDaylightSavingTime(timeZoneInfo)
+                        ,
+                        UTCOffset = timeZoneToReturn.GetUtcOffset(timeZoneInfo).ToString()
+                        ,
+                        TimeZoneName = timeZoneToReturn.Id
+                        ,
+                        CurrentFileTime = timeZoneInfo.ToFileTime()
+                        ,
+                        DayOfTheWeek = timeZoneInfo.DayOfWeek.ToString()
+                        ,
+                        OrdinalDate = string.Format("{0}-{1}", timeZoneInfo.Year, timeZoneInfo.DayOfYear)
+                    };
+                }
+                else
+                {
+                    return new DateTimeResponse
+                    {
+                        ServiceResponse = string.Format("{0} is not a valid date or command.", date)
+                    };
+                }
             } 
             catch(System.TimeZoneNotFoundException)
             {
@@ -61,14 +73,19 @@ namespace DateTimeService.Components
 
         private static DateTime ProcessNaturalLanguage(string date, TimeZoneInfo timeZoneToReturn)
         {
-            if (!date.Equals("now", StringComparison.CurrentCultureIgnoreCase))
+            switch (date.ToLower())
             {
-                DateTime outDate;
-                DateTime.TryParse(date, out outDate);
-                return TimeZoneInfo.ConvertTimeToUtc(outDate, timeZoneToReturn);
+                case "now":
+                    return DateTime.UtcNow;
+                case "tomorrow":
+                    return DateTime.UtcNow.AddHours(24);
+                case "yesterday":
+                    return DateTime.UtcNow.AddHours(-24);
+                default:
+                    DateTime outDate;
+                    DateTime.TryParse(date, out outDate);
+                    return TimeZoneInfo.ConvertTimeToUtc(outDate, timeZoneToReturn);
             }
-
-            return DateTime.UtcNow;
         }
     }
 }
