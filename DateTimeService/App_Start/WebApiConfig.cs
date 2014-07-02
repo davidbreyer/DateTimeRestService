@@ -17,6 +17,7 @@ namespace DateTimeService
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+            config.EnableCors();
 
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
