@@ -63,18 +63,18 @@ namespace DateTimeService.Components
         {
             if(timeZoneToReturn.Id.Equals("utc", StringComparison.InvariantCultureIgnoreCase))
             {
-                return string.Format("{0}{1}", timeZoneInfo.ToString("yyyy-MM-ddTHH\\:mm\\:ss"), "Z");
+                return string.Format("{0}{1}", timeZoneInfo.ToString("yyyy-MM-ddTHH\\:mm"), "Z");
             }
 
-            return string.Format("{0}{1}", timeZoneInfo.ToString("yyyy-MM-ddTHH\\:mm\\:ss"), GetOffSetFormatted(timeZoneInfo, timeZoneToReturn));
+            return string.Format("{0}{1}", timeZoneInfo.ToString("yyyy-MM-ddTHH\\:mm"), GetOffSetFormatted(timeZoneInfo, timeZoneToReturn));
         }
 
         private static string GetOffSetFormatted(DateTime timeZoneInfo, TimeZoneInfo timeZoneToReturn)
         {
             var offSetBase = timeZoneToReturn.GetUtcOffset(timeZoneInfo);
-            if (offSetBase.ToString().Contains("-")) return offSetBase.ToString();
+            if (offSetBase.ToString().Contains("-")) return offSetBase.ToString(@"\-hh\:mm");
 
-            return string.Format("+{0}", offSetBase);
+            return offSetBase.ToString(@"\+hh\:mm");
         }
 
 
